@@ -25,9 +25,18 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     var questions = [
-      "What's your fav color",
-      "What's your fav animal",
-      "What's your fav meal",
+      {
+        'questionText': "What's your fav color",
+        "answers": ['Black', 'Red', 'Green', 'White']
+      },
+      {
+        'questionText': "What's your fav animal",
+        "answers": ['elephant', 'Lion', 'Rabbit', 'Snake']
+      },
+      {
+        'questionText': "What's your fav meal",
+        "answers": ['Pizza', 'Steak', 'Ugali', 'Chicken wings']
+      },
     ];
     return MaterialApp(
       home: Scaffold(
@@ -36,10 +45,11 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Questions(questions[_questionIndex]),
-            Answer(_answerQuestions),
-            Answer(_answerQuestions),
-            Answer(_answerQuestions),
+            Questions(questions[_questionIndex]['questionText']),
+            ...(questions[_questionIndex]['answers'] as List<String>)
+                .map((answer) {
+              return Answer(_answerQuestions, answer);
+            }).toList()
           ],
         ),
       ),
