@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_udemy_test/result.dart';
 
-import './answer.dart';
-import './question.dart';
-import './skip.dart';
+import './quiz.dart';
 
 // method with only one expression
 void main() => runApp(MyApp());
@@ -16,10 +15,15 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
-  final questions = const [
+  final _questions = const [
     {
       'questionText': "What's your fav color",
-      "answers": ['Black', 'Red', 'Green', 'White']
+      "answers": [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 5},
+        {'text': 'Green', 'score': 3},
+        {'text': 'white', 'score': 1},
+      ]
     },
     {
       'questionText': "What's your fav animal",
@@ -44,18 +48,13 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('Hey'),
         ),
-        body: _questionIndex < questions.length
-            ? Column(
-                children: [
-                  Skip("Welcome...", Icons.visibility_off),
-                  Questions(questions[_questionIndex]['questionText']),
-                  ...(questions[_questionIndex]['answers'] as List<String>)
-                      .map((answer) {
-                    return Answer(_answerQuestions, answer);
-                  }).toList()
-                ],
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: _answerQuestions,
+                questions: _questions,
+                questionIndex: _questionIndex,
               )
-            : Center(child: Text("You did it")),
+            : Result(),
         backgroundColor: Colors.grey,
       ),
     );
